@@ -23,7 +23,6 @@ server <- function(input, output, session) {
     }
   })
   
-  
   # Reactive function to filter books based on inputs
   filteredBooks <- reactive({
     df <- booksData()
@@ -40,9 +39,10 @@ server <- function(input, output, session) {
       df <- df[grepl(input$titleSearch, df$title, ignore.case = TRUE), ]
     }
     
-    # Sort by title alphabetically
+    # Sort first by collection title, then by sort number, and lastly by title
     if (!is.null(df) && nrow(df) > 0) {
-      df <- df[order(df$title, decreasing = FALSE), ]
+      df$sort <- as.numeric(gsub("^[^0-9]*", "", df$sort))  # Extract numeric part of sort
+      df <- df[order(df$collection_title, df$sort, df$title), ]
     }
     
     df
