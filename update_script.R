@@ -72,11 +72,13 @@ combined_df <- data.frame(
   Year = character(),
   hdl = character(),
   doi = character(),
+  sort = character(),  # Renamed column
   stringsAsFactors = FALSE
 )
 
 # Iterate through article IDs to get article citation data
 for (i in 1:nrow(article_details)) {
+  print(i)
   article_id <- article_details$article_id[i]
   full_url_citation <- paste0(endpoint2, article_id)
   
@@ -89,7 +91,7 @@ for (i in 1:nrow(article_details)) {
   
   citation_data <- fromJSON(content(response, "text", encoding = "UTF-8"), flatten = TRUE)
   
-  # Extract authors, year, and handle with appropriate checks
+  # Extract authors, year, handle, DOI, and tags with appropriate checks
   Author <- if (!is.null(citation_data$authors) && nrow(citation_data$authors) > 0) {
     paste(citation_data$authors$full_name, collapse = ", ")
   } else {
@@ -114,6 +116,19 @@ for (i in 1:nrow(article_details)) {
     NA
   }
   
+  sort <- if (!is.null(citation_data$tags)) {
+    # Filter tags to keep only those starting with "WEDC"
+    filtered_tags <- citation_data$tags[grepl("^WEDC", citation_data$tags)]
+    if (length(filtered_tags) > 0) {
+      # Extract the portion of the tag after "WEDC"
+      sub("^WEDC", "", filtered_tags[1])  # Take the first matching tag and remove "WEDC"
+    } else {
+      ""  # Blank if no "WEDC" tags exist
+    }
+  } else {
+    ""
+  }
+  
   # Append the citation data to the combined data frame
   combined_df <- rbind(combined_df, data.frame(
     collection_title = article_details$collection_title[i],
@@ -123,10 +138,10 @@ for (i in 1:nrow(article_details)) {
     Year = year,
     hdl = hdl,
     doi = doi,
+    sort = sort,
     stringsAsFactors = FALSE
   ))
 }
-
 
 # Save the final dataset to a CSV file
 output_file <- "combined_data.csv"
