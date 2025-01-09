@@ -91,11 +91,7 @@ for (i in 1:nrow(article_details)) {
   
   citation_data <- fromJSON(content(response, "text", encoding = "UTF-8"), flatten = TRUE)
   
-<<<<<<< HEAD
-  # Extract authors, year, handle, and DOI with appropriate checks
-=======
   # Extract authors, year, handle, DOI, and tags with appropriate checks
->>>>>>> 9c0055c36d6f242832d3f8eacc1203dcaf2b4f26
   Author <- if (!is.null(citation_data$authors) && nrow(citation_data$authors) > 0) {
     paste(citation_data$authors$full_name, collapse = ", ")
   } else {
@@ -132,6 +128,7 @@ for (i in 1:nrow(article_details)) {
   } else {
     ""
   }
+  
   
   # Append the citation data to the combined data frame
   combined_df <- rbind(combined_df, data.frame(
