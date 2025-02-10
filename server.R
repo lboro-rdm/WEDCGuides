@@ -65,7 +65,7 @@ server <- function(input, output, session) {
         paste0(
           "<div style='margin-bottom: 10px;'>", # Add bottom margin
           "<strong>", link, "</strong>. ",
-          "<span style='color: #002c3d;'>", df$Author[i], ". (", df$Year[i], ").</span>",
+          "<span style='color: #002c3d;'>", df$Author[i], "</span>",
           "</div>"
         )
       })

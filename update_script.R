@@ -117,13 +117,14 @@ for (i in 1:nrow(article_details)) {
   }
   
   sort <- if (!is.null(citation_data$tags)) {
-    # Filter tags to keep only those starting with "WEDC"
-    filtered_tags <- citation_data$tags[grepl("^WEDC", citation_data$tags)]
+    # Filter tags that start with "WEDC"
+    filtered_tags <- citation_data$tags[grepl("^WEDC\\d+", citation_data$tags)]
+    
     if (length(filtered_tags) > 0) {
-      # Extract the portion of the tag after "WEDC"
-      sub("^WEDC", "", filtered_tags[1])  # Take the first matching tag and remove "WEDC"
+      # Extract the number after "WEDC"
+      sub("^WEDC", "", filtered_tags[1])  # Take the first numerical match and remove "WEDC"
     } else {
-      ""  # Blank if no "WEDC" tags exist
+      ""  # Blank if no "WEDC[number]" tags exist
     }
   } else {
     ""
