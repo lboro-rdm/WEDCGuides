@@ -7,27 +7,14 @@ library(jsonlite)
 library(dplyr)
 
 ui <- tags$html(
-  lang = "en",  # Set the language attribute
+  lang = "en",
   fluidPage(
-    titlePanel(
-      HTML('<span style="color: #002c3d;"><strong>WEDC, Loughborough University:</strong></span>
-          <span style="color: #009BC9;">Guides and factsheets</span><br><br>')
-    ),
-    
-    # CSS to set the background color and font size
     tags$head(
-      tags$style(HTML("
-        body {
-          background-color: #FFFFFF;
-          font-size: 16px;
-        }
-        h2, a {
-          color: #6F3092;
-        }
-        a.hover-underline:hover {
-          text-decoration: underline;
-        }
-      "))
+      tags$title("WEDC, Loughborough University: Books and Manuals"),  # Add page title here
+      tags$link(rel = "stylesheet", type = "text/css", href = "styles.css")
+    ),
+    tags$div(
+      HTML('<span class="wedc-title">WEDC, Loughborough University: Guides and Factsheets</span><br><br>')
     ),
     
     # Layout for inputs and outputs
@@ -57,7 +44,6 @@ ui <- tags$html(
           label = "Search by Title:",
           placeholder = "Enter book or manual title"
         )
-
       ),
       
       mainPanel(
@@ -68,6 +54,20 @@ ui <- tags$html(
             type = 3,
             color = "#009BC9",
             color.background = "#FFFFFF"
+          )
+        )
+      )
+    ),
+    
+    # Footer
+    tags$div(
+      class = "footer", 
+      fluidRow(
+        column(
+          12, 
+          tags$a(
+            href = 'https://doi.org/10.17028/rd.lboro.28525481', 
+            "Accessibility Statement"
           )
         )
       )

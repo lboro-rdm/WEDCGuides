@@ -17,7 +17,7 @@ server <- function(input, output, session) {
       updateSelectInput(
         session,
         "collectionSelect",
-        choices = c("All", unique(df$collection_title)),  # Add "All" option
+        choices = c("All", sort(unique(df$collection_title))),  # Add "All" option
         selected = "All"
       )
     }
